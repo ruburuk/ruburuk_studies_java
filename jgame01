@@ -1,0 +1,19 @@
+public class main
+{
+    // tip: arguments are passed via the field below this editor
+    public static void main(String[] args)
+    {
+        System.out.println("환영합니다.");
+        int lv = 1;
+        int exp= 0;
+     
+        int atk = 3;
+        int def = 0;
+        int hp = 10;
+
+        System.out.printf("LV : %d  EXP : %d  ", lv, exp);
+        System.out.printf("공격력 : %d  방어력 : %d  HP : %d", atk, def, hp);
+     
+    
+    }
+}
