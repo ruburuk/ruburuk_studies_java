@@ -13,10 +13,16 @@ public class Jgame_classic {
 		//초기스탯
 		int lv = 1;
 		int exp= 0;
+		//배열 사용해보기 5레벨까지 필요한 경험치량
+		int[] lvupexp = new int[4];
+		lvupexp[0]= 3;
+		lvupexp[1]= 7;
+		lvupexp[2]= 15;
+		lvupexp[3]= 25;
 
-		int atk = 3;
-		int def = 0;
-		int hp = 10;
+		int atk = 1+lv*2;
+		int def = -1+lv;
+		int Mhp = lv*5+5;
 				
 		//1.이름정하기
 		//1.1 스캐너 활성화
@@ -41,7 +47,7 @@ public class Jgame_classic {
         	
         //이름, 초기스탯 출력
         System.out.printf("Name : %s\n",name);            
-        System.out.printf("LV: %d 공격력: %d 방어력: %d HP: %d EXP: %d\n\n", lv, atk, def, hp, exp);
+        System.out.printf("LV: %d 공격력: %d 방어력: %d HP: %d EXP: %d/%d\n\n", lv, atk, def, Mhp, exp,lvupexp[lv-1]);
             
         //여행시작    
         System.out.println("당신 앞에 슬라임 한마리가 있습니다. 아직 당신을 발견하지 못한 모양입니다");
@@ -56,7 +62,9 @@ public class Jgame_classic {
         	System.out.println("다시 생각해보세요");
         }
         //슬라임 기본체력
-    	int slimehp = 10;        
+    	int slimeMhp = 10;
+    	int slimehp = slimeMhp;
+    	int hp = Mhp;
         switch(cho) {
         case 1:
         	System.out.println("당신의 검은 자비없이 슬라임의 정수리를 관통합니다");
@@ -64,9 +72,7 @@ public class Jgame_classic {
         	slimehp = slimehp-5;        	
         	break;
         case 2:
-        	System.out.println("눈치빠른 슬라임은 당신을 알아채고 돌진합니다");
-        	System.out.println("당신은 2의 피해를 입었다!");
-        	hp=hp-2;      	
+        	System.out.println("눈치빠른 슬라임은 당신을 알아채고 곧바로 거리를 좁힙니다!!");  	
         	break;
         }
         
@@ -74,7 +80,7 @@ public class Jgame_classic {
     		if(hp>0) {
     		
     		System.out.printf("\nLV%d %s   VS    Lv1 슬라임\n",lv,name);
-    		System.out.printf("HP: %d           HP: %d\n",hp, slimehp);
+    		System.out.printf("HP: %d/%d           HP: %d/%d\n",hp,Mhp, slimehp,slimeMhp);
     		
     		System.out.println("1 공격한다 2 스킬사용 3 도망간다");
             String chos1 = scan.nextLine();
@@ -83,8 +89,11 @@ public class Jgame_classic {
             case 1:
             	System.out.println("공격! 3의 데미지를 주었습니다.");
             	slimehp = slimehp-3;
+            	//동귀어진 방지
+            	if(slimehp>0) {
             	System.out.println("슬라임의 몸통박치기! 2의 피해를 입었습니다.");
             	hp=hp-2;
+            	}
             	break;
             case 2:
             	System.out.println("스킬을 생각해보았지만 아무것도 떠오르지 않습니다!");
@@ -105,11 +114,24 @@ public class Jgame_classic {
     	}
     	
         if(hp>0) {
-        	System.out.println("슬라임을 물리쳤습니다!!!");
+        	System.out.println("슬라임을 물리쳤습니다!!!\n경험치를 5 획득하였습니다");
+        	//경험치 획득, 레벨업
+        	exp=exp+5;
+        	if(exp>lvupexp[lv-1]) {
+        		exp=exp-lvupexp[lv-1];
+        		lv=lv+1;
+        		atk = 1+lv*2;
+        		def = -1+lv;
+        		Mhp = lv*5+5;
+        		hp=hp+5;
+        		System.out.printf("레벨업!!!!!!! LV %d -> %d\n",lv-1,lv);
+        	}
+            System.out.printf("Name : %s\n",name);            
+            System.out.printf("LV: %d 공격력: %d(+2) 방어력: %d(+1) HP: %d/%d(+5) EXP: %d/%d\n\n", lv, atk, def, hp,Mhp, exp,lvupexp[lv-1]);
         System.out.println("!!!!!!GAME CLEAR!!!!!!");
         }
         else {
-        	System.out.println("당신은 죽었습니다.ㅇ\n========GAME OVER========");
+        	System.out.println("당신은 죽었습니다.\n========GAME OVER========");
         }
         
         
